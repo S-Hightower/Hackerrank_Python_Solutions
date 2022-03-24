@@ -14,19 +14,21 @@ import sys
 #
 
 def timeConversion(s):
-    if s[-2:] == "am" and s[:2] == "12":
-        return "00" + s[2:-2]
+    hour, minute, second_AMPM = s.split(':')
     
-    elif s[-2:] == "am":
-        return s[:-2]
-    
-    elif s[-2:] == "pm" and s[:2] == "12":
-        return s[:-2]
-    
-    else:
-        ans = int(s[:2]) + 12
-        return str(str(ans) + s[2:8])
+    if second_AMPM[2:] == "PM" and hour != '12':
+        hour = str(int(hour)+ 12)
         
+    if second_AMPM[2:] == "AM" and hour == '12':
+        hour = "00"
+        
+    if second_AMPM[2:] == "PM" and hour == '12':
+        hour = "12"
+        
+    conversion_time = hour + ':' + minute + ':' + second_AMPM[0:2]
+    
+    return conversion_time
+
 if __name__ == '__main__':
     fptr = open(os.environ['OUTPUT_PATH'], 'w')
 
